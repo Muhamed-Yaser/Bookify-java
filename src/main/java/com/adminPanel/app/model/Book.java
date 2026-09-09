@@ -21,21 +21,24 @@ public class Book {
     @Column(name = "id")
     private int id;
 
-    // Validation constraint: Book title cannot be empty
     @NotNull(message = "Title is required")
     @Size(min = 1, message = "Title is required")
     @Column(name = "title")
     private String title;
 
-    // Enables nested validation for BookDetails when saving/updating a Book
     @Valid
     @OneToOne(mappedBy = "book", cascade = CascadeType.ALL)
     private BookDetails bookDetails;
 
+    // Requirement: Category must be selected
+    @NotNull(message = "Category must be selected")
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // Requirement: At least one author must be selected
+    @NotNull(message = "At least one author must be selected")
+    @Size(min = 1, message = "At least one author must be selected")
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "book_author",

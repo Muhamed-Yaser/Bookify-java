@@ -3,18 +3,14 @@ package com.adminPanel.app.dao;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import com.adminPanel.app.model.Category;
 
+@Transactional
 public class CategoryDAO {
 
     private SessionFactory sessionFactory;
-
-    public CategoryDAO() {
-    }
-
-    public CategoryDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -27,13 +23,13 @@ public class CategoryDAO {
 
     public Category findById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return (Category) session.get(Category.class, id);
+        return session.get(Category.class, id);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Category> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Category").list();
+        Query<Category> query = session.createQuery("from Category", Category.class);
+        return query.getResultList();
     }
 
     public void update(Category category) {
@@ -43,7 +39,7 @@ public class CategoryDAO {
 
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Category categoryToDelete = (Category) session.get(Category.class, id);
+        Category categoryToDelete = session.get(Category.class, id);
         if (categoryToDelete != null) {
             session.delete(categoryToDelete);
         }

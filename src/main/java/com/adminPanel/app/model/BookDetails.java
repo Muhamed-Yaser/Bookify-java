@@ -21,7 +21,6 @@ public class BookDetails {
     @Column(name = "id")
     private int id;
 
-    // Validation constraint: ISBN cannot be empty
     @NotNull(message = "ISBN is required")
     @Size(min = 1, message = "ISBN is required")
     @Column(name = "isbn", unique = true)
@@ -31,10 +30,12 @@ public class BookDetails {
     @Temporal(TemporalType.DATE)
     private Date publicationDate;
 
+    // Requirement: Publisher is required
+    @NotNull(message = "Publisher is required")
+    @Size(min = 1, message = "Publisher is required")
     @Column(name = "publisher")
     private String publisher;
 
-    // Validation constraint: Number of pages must be at least 1
     @Min(value = 1, message = "Number of pages must be greater than 0")
     @Column(name = "number_of_pages")
     private int numberOfPages;

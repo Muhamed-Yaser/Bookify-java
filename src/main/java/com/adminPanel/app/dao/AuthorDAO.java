@@ -3,18 +3,14 @@ package com.adminPanel.app.dao;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.transaction.annotation.Transactional;
 import com.adminPanel.app.model.Author;
 
+@Transactional
 public class AuthorDAO {
 
     private SessionFactory sessionFactory;
-
-    public AuthorDAO() {
-    }
-
-    public AuthorDAO(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -27,13 +23,13 @@ public class AuthorDAO {
 
     public Author findById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        return (Author) session.get(Author.class, id);
+        return session.get(Author.class, id);
     }
 
-    @SuppressWarnings("unchecked")
     public List<Author> findAll() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from Author").list();
+        Query<Author> query = session.createQuery("from Author", Author.class);
+        return query.getResultList();
     }
 
     public void update(Author author) {
@@ -43,7 +39,7 @@ public class AuthorDAO {
 
     public void delete(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Author authorToDelete = (Author) session.get(Author.class, id);
+        Author authorToDelete = session.get(Author.class, id);
         if (authorToDelete != null) {
             session.delete(authorToDelete);
         }

@@ -98,6 +98,13 @@
       <version>5.1.49</version>
     </dependency>
 
+    <!-- JSTL (needed for <c:...> tags used in JSP views) -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
     <!--  Lombok (Generates our getters, setters, and constructors automatically -->
     <dependency>
       <groupId>org.projectlombok</groupId>

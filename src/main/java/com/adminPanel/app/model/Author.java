@@ -18,7 +18,7 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id;
+    private Integer id;
 
     // Validation constraint: Author name cannot be empty
     @NotNull(message = "Author name is required")
