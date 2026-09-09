@@ -1,6 +1,8 @@
 package com.adminPanel.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,9 @@ public class Author {
     @Column(name = "id")
     private int id;
 
+    // Validation constraint: Author name cannot be empty
+    @NotNull(message = "Author name is required")
+    @Size(min = 1, message = "Author name is required")
     @Column(name = "name")
     private String name;
 
@@ -27,6 +32,4 @@ public class Author {
     public Author(String name) {
         this.name = name;
     }
-
 }
-
