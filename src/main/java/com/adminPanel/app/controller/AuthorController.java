@@ -18,18 +18,20 @@ import java.util.List;
 @RequestMapping("/authors")
 public class AuthorController {
 
+    //Pagination
     private static final int PAGE_SIZE = 5;
 
     @Autowired
     private AuthorDAO authorDAO;
 
+    //Remove white spaces.
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {
         StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
         dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
-    // GET /authors : list with pagination
+    // GET /author
     @GetMapping
     public String listAuthors(@RequestParam(defaultValue = "1") int page, Model model) {
         List<Author> authorList = authorDAO.findPage(page, PAGE_SIZE);
@@ -88,7 +90,7 @@ public class AuthorController {
     public String deleteAuthor(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
         if (authorDAO.hasBooks(id)) {
             redirectAttributes.addFlashAttribute("errorMessage",
-                    "Cannot delete this author: they still have books linked to them. Remove those books or their authorship first.");
+                    "Cannot delete this author: they still have books. Remove those books or their authorship first.");
         } else {
             authorDAO.delete(id);
         }

@@ -16,6 +16,8 @@
             <a href="${pageContext.request.contextPath}/books"><i class="bi bi-book me-2"></i> Books</a>
             <a href="${pageContext.request.contextPath}/categories"><i class="bi bi-grid me-2"></i> Categories</a>
             <a href="${pageContext.request.contextPath}/authors"><i class="bi bi-people me-2"></i> Authors</a>
+            <a href="${pageContext.request.contextPath}/book-authors"><i class="bi bi-link-45deg me-2"></i> Book Authors</a>
+
         </div>
 
         <!-- Main Content -->

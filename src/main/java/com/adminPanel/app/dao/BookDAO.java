@@ -1,6 +1,5 @@
 package com.adminPanel.app.dao;
 
-import org.hibernate.Hibernate;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
@@ -50,16 +49,21 @@ public class BookDAO {
 
     public Book findById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Book book = session.get(Book.class, id);
 
-        // Tell Hibernate to load the lazy data while the DB session is still open
-        if (book != null) {
-            Hibernate.initialize(book.getAuthors());
-            Hibernate.initialize(book.getCategory());
-            Hibernate.initialize(book.getBookDetails());
+        // We fetch the authors together with the book in one query.
+        // This way, book.getAuthors() will already be filled in,
+        // and we will not get a "no Session" error later when we
+        // read it on a JSP page or in another controller.
+        String hql = "select distinct b from Book b left join fetch b.authors where b.id = :id";
+        Query<Book> query = session.createQuery(hql, Book.class);
+        query.setParameter("id", id);
+
+        List<Book> results = query.getResultList();
+
+        if (results.isEmpty()) {
+            return null;
         }
-
-        return book;
+        return results.get(0);
     }
 
     public List<Book> findAll() {
