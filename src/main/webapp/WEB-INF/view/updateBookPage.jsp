@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Book</title>
+    <title>Update Book</title>
     <%@ include file="header.jspf" %>
 </head>
 <body>
@@ -12,17 +12,20 @@
     <div class="row">
         <div class="col-md-2 sidebar p-0">
             <h4 class="p-3 text-white border-bottom border-secondary">Library System</h4>
-            <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door me-2"></i> Dashboard</a>
+                <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door me-2"></i> Dashboard</a>
             <a href="${pageContext.request.contextPath}/books" class="active"><i class="bi bi-book me-2"></i> Books</a>
             <a href="${pageContext.request.contextPath}/categories"><i class="bi bi-grid me-2"></i> Categories</a>
             <a href="${pageContext.request.contextPath}/authors"><i class="bi bi-people me-2"></i> Authors</a>
         </div>
 
         <div class="col-md-10 main-content">
-            <h2 class="mb-4">Add Book</h2>
+            <h2 class="mb-4">Update Book</h2>
 
             <div class="card card-custom p-4">
-                <form:form action="${pageContext.request.contextPath}/books/add" modelAttribute="book" method="post">
+                <form:form action="${pageContext.request.contextPath}/books/${book.id}/update" modelAttribute="book" method="post">
+
+                    <form:hidden path="id"/>
+                    <form:hidden path="bookDetails.id"/>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
@@ -33,7 +36,7 @@
                         <div class="col-md-6">
                             <label class="form-label">Category *</label>
                             <form:select path="category.id" cssClass="form-select">
-                                <form:option value="0" label="-- Select Category --"/>
+                                <form:option value="" label="-- Select Category --"/>
                                 <form:options items="${categories}" itemValue="id" itemLabel="name"/>
                             </form:select>
                             <form:errors path="category" cssClass="text-danger small"/>
@@ -93,7 +96,7 @@
 
                     <div class="d-flex justify-content-end gap-2">
                         <a href="${pageContext.request.contextPath}/books" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
                     </div>
 
                 </form:form>

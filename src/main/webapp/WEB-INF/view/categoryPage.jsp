@@ -11,6 +11,7 @@
     <div class="row">
         <div class="col-md-2 sidebar p-0">
             <h4 class="p-3 text-white border-bottom border-secondary">Library System</h4>
+            <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door me-2"></i> Dashboard</a>
             <a href="${pageContext.request.contextPath}/books"><i class="bi bi-book me-2"></i> Books</a>
             <a href="${pageContext.request.contextPath}/categories" class="active"><i class="bi bi-grid me-2"></i> Categories</a>
             <a href="${pageContext.request.contextPath}/authors"><i class="bi bi-people me-2"></i> Authors</a>
@@ -18,6 +19,10 @@
 
         <div class="col-md-10 main-content">
             <h2>Categories</h2>
+
+            <c:if test="${not empty errorMessage}">
+                <div class="alert alert-danger mt-3">${errorMessage}</div>
+            </c:if>
 
             <!-- نموذج إضافة تصنيف سريع -->
             <div class="card card-custom p-3 my-3">
@@ -40,6 +45,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,10 +53,33 @@
                             <tr>
                                 <td>${cat.id}</td>
                                 <td><c:out value="${cat.name}"/></td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/categories/${cat.id}/edit" class="btn btn-sm btn-warning text-dark">Update</a>
+                                    <form action="${pageContext.request.contextPath}/categories/${cat.id}/delete" method="post" style="display:inline;" onsubmit="return confirm('Delete this category?');">
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${empty categories}">
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-4">No categories found.</td>
+                            </tr>
+                        </c:if>
                     </tbody>
                 </table>
+
+                <c:if test="${totalPages > 1}">
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0">
+                            <c:forEach begin="1" end="${totalPages}" var="p">
+                                <li class="page-item ${p == currentPage ? 'active' : ''}">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/categories?page=${p}">${p}</a>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </nav>
+                </c:if>
             </div>
         </div>
     </div>

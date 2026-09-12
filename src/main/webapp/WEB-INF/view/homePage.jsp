@@ -12,6 +12,7 @@
         <!-- Sidebar Navigation -->
         <div class="col-md-2 sidebar p-0">
             <h4 class="p-3 text-white border-bottom border-secondary">Library System</h4>
+            <a href="${pageContext.request.contextPath}/"><i class="bi bi-house-door me-2"></i> Dashboard</a>
             <a href="${pageContext.request.contextPath}/books" class="active"><i class="bi bi-book me-2"></i> Books</a>
             <a href="${pageContext.request.contextPath}/categories"><i class="bi bi-grid me-2"></i> Categories</a>
             <a href="${pageContext.request.contextPath}/authors"><i class="bi bi-people me-2"></i> Authors</a>
@@ -24,6 +25,21 @@
                 <a href="${pageContext.request.contextPath}/books/add" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Add Book</a>
             </div>
 
+            <!-- Search by title or ISBN -->
+            <div class="card card-custom p-3 mb-3">
+                <form action="${pageContext.request.contextPath}/books" method="get" class="row g-2 align-items-center">
+                    <div class="col-auto flex-grow-1">
+                        <input type="text" name="search" class="form-control" placeholder="Search by title or ISBN..." value="${search}"/>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-outline-primary">Search</button>
+                        <c:if test="${not empty search}">
+                            <a href="${pageContext.request.contextPath}/books" class="btn btn-outline-secondary">Clear</a>
+                        </c:if>
+                    </div>
+                </form>
+            </div>
+
             <div class="card card-custom p-3">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
@@ -31,6 +47,7 @@
                             <th>ID</th>
                             <th>Title</th>
                             <th>Category</th>
+                            <th>Price</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -44,8 +61,8 @@
                                         <c:out value="${tempBook.category != null ? tempBook.category.name : 'Uncategorized'}"/>
                                     </span>
                                 </td>
+                                <td>$${tempBook.price}</td>
                                 <td>
-                                    <!-- أزرار الإجراءات المطابقة للون والنمط المطلوبة في المشروع -->
                                     <a href="${pageContext.request.contextPath}/books/${tempBook.id}" class="btn btn-sm btn-primary">Details</a>
                                     <a href="${pageContext.request.contextPath}/books/${tempBook.id}/edit" class="btn btn-sm btn-warning text-dark">Update</a>
 
@@ -55,8 +72,26 @@
                                 </td>
                             </tr>
                         </c:forEach>
+                        <c:if test="${empty books}">
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">No books found.</td>
+                            </tr>
+                        </c:if>
                     </tbody>
                 </table>
+
+                <!-- Pagination -->
+                <c:if test="${totalPages > 1}">
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0">
+                            <c:forEach begin="1" end="${totalPages}" var="p">
+                                <li class="page-item ${p == currentPage ? 'active' : ''}">
+                                    <a class="page-link" href="${pageContext.request.contextPath}/books?page=${p}${not empty search ? '&search='.concat(search) : ''}">${p}</a>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </nav>
+                </c:if>
             </div>
         </div>
     </div>

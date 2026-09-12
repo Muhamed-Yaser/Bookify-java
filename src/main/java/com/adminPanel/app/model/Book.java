@@ -36,9 +36,7 @@ public class Book {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    // Requirement: At least one author must be selected
-    @NotNull(message = "At least one author must be selected")
-    @Size(min = 1, message = "At least one author must be selected")
+    // At least one author must be selected - checked manually in the controller
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
             name = "book_author",
@@ -46,6 +44,10 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private List<Author> authors;
+
+    //Price
+    @Column(name = "price")
+    private Double price;
 
     public Book(String title) {
         this.title = title;

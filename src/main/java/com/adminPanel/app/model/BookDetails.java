@@ -8,6 +8,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "book_details")
@@ -28,6 +29,7 @@ public class BookDetails {
 
     @Column(name = "publication_date")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date publicationDate;
 
     // Requirement: Publisher is required

@@ -143,6 +143,20 @@
       <scope>compile</scope>
     </dependency>
 
+    <!-- JSTL Dependency for loops and conditions in JSP -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!-- Standard implementation for JSTL -->
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
